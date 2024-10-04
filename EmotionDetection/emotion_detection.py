@@ -11,11 +11,20 @@ def emotion_detector(text_to_analyse):  # Define a function named sentiment_anal
     formatted_response = json.loads(response.text)
 
     # Extracting emotion prediction and score from the response
-    anger_score = formatted_response['emotionPredictions'][0]['emotion']['anger']
-    disgust_score = formatted_response['emotionPredictions'][0]['emotion']['disgust']
-    fear_score = formatted_response['emotionPredictions'][0]['emotion']['fear']
-    joy_score = formatted_response['emotionPredictions'][0]['emotion']['joy']
-    sadness_score = formatted_response['emotionPredictions'][0]['emotion']['sadness']
+    # If the response status code is 200, extract the scores from the response
+    if response.status_code == 200:
+        anger_score = formatted_response['emotionPredictions'][0]['emotion']['anger']
+        disgust_score = formatted_response['emotionPredictions'][0]['emotion']['disgust']
+        fear_score = formatted_response['emotionPredictions'][0]['emotion']['fear']
+        joy_score = formatted_response['emotionPredictions'][0]['emotion']['joy']
+        sadness_score = formatted_response['emotionPredictions'][0]['emotion']['sadness']
+    # If the response status code is 400, set everything to None
+    elif response.status_code == 400:
+        anger_score = 'None'
+        disgust_score = 'None'
+        fear_score = 'None'
+        joy_score = 'None'
+        sadness_score = 'None'
     
     emotion_values = {
     'anger': anger_score,
